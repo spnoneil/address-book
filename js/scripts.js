@@ -38,6 +38,11 @@ function Contact(firstName, lastName, phoneNumber, email, address) {
   this.address = address;
 }
 
+function Email(work, personal) {
+  this.work = work;
+  this.personal = personal
+}
+
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
 }
@@ -61,7 +66,8 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
-  $(".email").html(contact.email);
+  $(".personal-email").html(contact.email.personal);
+  $(".work-email").html(contact.email.work);
   $(".address").html(contact.address);
   let buttons = $("#buttons");
   buttons.empty();
@@ -86,15 +92,19 @@ $(document).ready(function() {
     const inputtedFirstName = $("input#new-first-name").val();
     const inputtedLastName = $("input#new-last-name").val();
     const inputtedPhoneNumber = $("input#new-phone-number").val();
-    const inputtedEmail = $("input#new-email").val();
+    const inputtedWorkEmail = $("input#new-work-email").val();
+    const inputtedPersonalEmail = $("input#new-personal-email").val();
     const inputtedAddress = $("input#new-address").val();
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
-    $("input#new-email").val("");
+    $("input#new-personal-email").val("");
+    $("input#new-work-email").val("");
     $("input#new-address").val("");
+    let inputtedEmail = new Email(inputtedWorkEmail, inputtedPersonalEmail);
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmail, inputtedAddress);
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
+    console.log(addressBook.contacts);
   });
 });
