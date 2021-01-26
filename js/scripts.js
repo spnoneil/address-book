@@ -43,6 +43,11 @@ function Email(work, personal) {
   this.personal = personal
 }
 
+function Address(homeAddress, workAddress) {
+  this.homeAddress = homeAddress;
+  this.workAddress = workAddress;
+}
+
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
 }
@@ -68,7 +73,8 @@ function showContact(contactId) {
   $(".phone-number").html(contact.phoneNumber);
   $(".personal-email").html(contact.email.personal);
   $(".work-email").html(contact.email.work);
-  $(".address").html(contact.address);
+  $(".home-address").html(contact.address.homeAddress);
+  $(".work-address").html(contact.address.workAddress);
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + +contact.id + ">Delete</button>");
@@ -89,22 +95,29 @@ $(document).ready(function() {
   attachContactListeners();
   $("form#new-contact").submit(function(e) {
     e.preventDefault();
+
     const inputtedFirstName = $("input#new-first-name").val();
     const inputtedLastName = $("input#new-last-name").val();
     const inputtedPhoneNumber = $("input#new-phone-number").val();
     const inputtedWorkEmail = $("input#new-work-email").val();
     const inputtedPersonalEmail = $("input#new-personal-email").val();
-    const inputtedAddress = $("input#new-address").val();
+    const inputtedHomeAddress = $("input#new-home-address").val();
+    const inputtedWorkAddress = $("input#new-work-address").val();
+
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
     $("input#new-personal-email").val("");
     $("input#new-work-email").val("");
-    $("input#new-address").val("");
+    $("input#new-home-address").val("");
+    $("input#new-work-address").val("");
+
+    let inputtedAddress = new Address(inputtedHomeAddress, inputtedWorkAddress);
     let inputtedEmail = new Email(inputtedWorkEmail, inputtedPersonalEmail);
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmail, inputtedAddress);
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
     console.log(addressBook.contacts);
+
   });
 });
