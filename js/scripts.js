@@ -60,6 +60,12 @@ function displayContactDetails(addressBookToDisplay) {
   let htmlForContactInfo = "";
   Object.keys(addressBookToDisplay.contacts).forEach(function(key) {
     const contact = addressBookToDisplay.findContact(key);
+    // contact.address = {email, address}
+
+    if (contact.phoneNumber === "") {
+      $().text("")
+    }
+
     htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
   });
   contactsList.html(htmlForContactInfo);
@@ -68,13 +74,31 @@ function displayContactDetails(addressBookToDisplay) {
 function showContact(contactId) {
   const contact = addressBook.findContact(contactId);
   $("#show-contact").show();
-  $(".first-name").html(contact.firstName);
-  $(".last-name").html(contact.lastName);
-  $(".phone-number").html(contact.phoneNumber);
-  $(".personal-email").html(contact.email.personal);
+  if (contact.firstName === "") {
+    $("#nameID").hide();
+  } else {
+    $(".first-name").html(contact.firstName);
+  }
+  if (contact.lastName === "") {
+    $("#lastID").hide();
+  } else {
+    $(".last-name").html(contact.lastName);
+  }
+  if (contact.phoneNumber === "") {
+    $("#numID").hide();
+  } else {
+    $(".phone-number").html(contact.phoneNumber);
+  }
+  if (contact.phoneNumber === "") {
+    $("#numID").hide();
+  } else {
+    $(".personal-email").html(contact.email.personal);
+  }
   $(".work-email").html(contact.email.work);
   $(".home-address").html(contact.address.homeAddress);
   $(".work-address").html(contact.address.workAddress);
+
+
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" + +contact.id + ">Delete</button>");
@@ -104,6 +128,19 @@ $(document).ready(function() {
     const inputtedHomeAddress = $("input#new-home-address").val();
     const inputtedWorkAddress = $("input#new-work-address").val();
 
+    let inputArray = [inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedWorkEmail, inputtedPersonalEmail, inputtedHomeAddress, inputtedWorkAddress];
+
+    //   for (let i = 0; i < inputArray.length; i += 1) {
+    //     if ($(this).val().length === 0) {
+    //       ("").remove();
+
+    //     };
+
+    //     // $("p").not(".val()")
+    //     // $(".hide").remove();
+    //   }
+    // }
+
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
@@ -118,6 +155,16 @@ $(document).ready(function() {
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
     console.log(addressBook.contacts);
+
+    // if ($("#new-first-name") === undefined || $("#new-first-name") === null) {
+    //   $(".hide").hide();
+    // }
+
+    // function remove(contactInfo) {
+    //   for
+    // }
+
+    // $("#show-contact").not().remove()
 
   });
 });
